@@ -8,7 +8,6 @@ verify_ssl = true
 [packages]
 tensorflow-gpu = "*"
 jupyter = "*"
-pipfile = "*"
 
 [requires]
 python_version = "3.6"
