@@ -8,6 +8,10 @@ verify_ssl = true
 [packages]
 tensorflow-gpu = "*"
 jupyter = "*"
+ipykernel = "*"
+numpy = "*"
+scipy = "*"
+scikit-learn = "*"
 
 [requires]
 python_version = "3.6"
