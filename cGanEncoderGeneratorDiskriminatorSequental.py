@@ -13,13 +13,9 @@ import os
 from tensorflow.keras.preprocessing import image
 import random
 
-
-with open ('metaData', 'rb') as fp:
-    age_difference = pickle.load(fp)
-
 IMAGE_DIR="result_cGAN"
 INPUT_DIR="imdb_resized"
-NUM_IMAGES = 200000 #len(age_difference)
+NUM_IMAGES = 0 #len(age_difference)
 NUM_SHIFT = 0
 LOAD_IMAGES = True
 
@@ -43,7 +39,6 @@ LEARNING_RELATION_DISC=2
 TRAIN_GEN=False
 LEARNING_RELATION_GEN = 1
 
-age_difference = age_difference[NUM_SHIFT:]
 if LOAD_IMAGES:
     data = []
     for i in range(NUM_IMAGES):
@@ -62,13 +57,15 @@ if LOAD_IMAGES:
 
 
 
-def generator(latent_dim=122,y_dim=6):
+def generator(latent_dim=122,y_dim=6,gen_dim=2):
 
     input_latent = Input((latent_dim,))
 
     input_label= Input((y_dim,))
 
-    gen = Concatenate()([input_latent, input_label])
+    input_gen = Input((gen_dim,))
+
+    gen = Concatenate()([input_latent, input_label,input_gen])
     gen = Dense(1024*4*4)(gen)
     gen = ReLU()(gen)
     gen = Reshape((4,4,1024))(gen)
@@ -86,18 +83,20 @@ def generator(latent_dim=122,y_dim=6):
     gen = Conv2DTranspose(CHANNELS,4,strides=2,padding="same")(gen) #8,8
     gen = Activation("tanh")(gen)
 
-    gen = Model([input_latent,input_label],gen)
+    gen = Model([input_latent,input_label,input_gen],gen)
 
     #plot_model(gen, to_file="model.png")
     return gen
 
 
-def discriminator(height,width,channels,label_dim,learning_rate,embedding_dim=64):
+def discriminator(height,width,channels,label_dim_1,label_dim_2,learning_rate):
 
     input_image = Input((height,width,channels))
-    input_label = Input((label_dim,))
+    input_label = Input((label_dim_1,))
+    input_gen = Input((label_dim_2,))
 
-    label = Dense(HEIGHT * WIDTH)(input_label)
+    label = Concatenate()([input_label, input_gen])
+    label = Dense(HEIGHT * WIDTH)(label)
     label = LeakyReLU()(label)
     label = Reshape((HEIGHT, WIDTH, 1))(label)
 
@@ -123,7 +122,7 @@ def discriminator(height,width,channels,label_dim,learning_rate,embedding_dim=64
 
     disc = Dense(1, activation="sigmoid")(disc)
 
-    disc = Model([input_image,input_label],disc)
+    disc = Model([input_image,input_label,input_gen],disc)
 
     discriminator_optimizer = Adam(lr=LEARNING_RATE,beta_1=0.5)
 
@@ -134,15 +133,15 @@ def discriminator(height,width,channels,label_dim,learning_rate,embedding_dim=64
 
 def cGan(generator_model,discriminator_model,learning_rate):
     discriminator_model.trainable=False
-    input_latent, input_label = generator_model.input
+    input_latent, input_label_1,input_label_2 = generator_model.input
 
     print(input_latent.shape)
-    print(input_label.shape)
+    print(input_label_1.shape)
 
-    generator_output = generator_model([input_latent, input_label])
-    gan_output = discriminator_model([generator_output, input_label])
+    generator_output = generator_model([input_latent, input_label_1,input_label_2])
+    gan_output = discriminator_model([generator_output, input_label_1,input_label_2])
 
-    gan = Model([input_latent, input_label], gan_output)
+    gan = Model([input_latent, input_label_1,input_label_2], gan_output)
 
     gan_optimizer = Adam(lr=learning_rate * LEARNING_RELATION_ADV,beta_1=0.5)
     gan.compile(optimizer=gan_optimizer, loss="binary_crossentropy")
@@ -196,7 +195,7 @@ def fullEnkoder(encoder_model,generator_model,learning_rate):
 
 
 gen = generator()
-disc = discriminator(HEIGHT,WIDTH,CHANNELS,6,LEARNING_RATE)
+disc = discriminator(HEIGHT,WIDTH,CHANNELS,6,2,LEARNING_RATE)
 
 gan = cGan(gen,disc,LEARNING_RATE)
 print(gan.summary())
