@@ -128,4 +128,3 @@ if __name__ == "__main__":
     encoder = build_encoder()
     gen = build_generator()
     disc = build_discriminator()
-    print("hello")
