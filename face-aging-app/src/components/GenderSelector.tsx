@@ -26,7 +26,6 @@ export default function GenderSelector({
 }: Props) {
   const handleChange = (event: ChangeEvent<unknown>) => {
     let value = (event.target as HTMLInputElement).value;
-    console.log(value);
     registerTargetGender(value);
   };
 
@@ -41,13 +40,13 @@ export default function GenderSelector({
         onChange={handleChange}
       >
         <FormControlLabel
-          value={"male"}
+          value={String(1)}
           control={<BlueRadio />}
           label={"male"}
           labelPlacement="bottom"
         />
         <FormControlLabel
-          value={"female"}
+          value={String(0)}
           control={<BlueRadio />}
           label={"female"}
           labelPlacement="bottom"

@@ -4,12 +4,13 @@ import Header from "./Header";
 import AgeSelector from "../components/AgeSelector";
 import GenderSelector from "../components/GenderSelector";
 import PictureUploader from "../components/PictureUploader";
-import PictureViewer from "../components/PictureViewer";
+import ModelHandler from "../components/ModelHandler";
 import GeneratePictureButton from "../components/GeneratePictureButton";
 
 export default function FaceAgeContainer() {
   const [targetAge, setTargetAge] = useState(3);
-  const [targetGender, setTargetGender] = useState("male");
+  const [targetGender, setTargetGender] = useState("1");
+  const [image, setImage] = useState("");
 
   const registerTargetAge = (newTarget: number) => {
     setTargetAge(newTarget);
@@ -19,13 +20,17 @@ export default function FaceAgeContainer() {
     setTargetGender(newTarget);
   };
 
+  const registerImage = (objectUrl: string) => {
+    setImage(objectUrl);
+  };
+
   const generateFace = () => {};
 
   return (
     <div>
       <Header />
-      <PictureUploader />
-      <PictureViewer />
+      <PictureUploader image={image} setImage={registerImage} />
+      <ModelHandler />
       <AgeSelector
         label={"Select Age"}
         registerTargetAge={registerTargetAge}

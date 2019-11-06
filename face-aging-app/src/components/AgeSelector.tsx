@@ -43,37 +43,37 @@ export default function AgeSelector({
         <FormControlLabel
           value={String(0)}
           control={<BlueRadio />}
-          label={0}
+          label={"0-18"}
           labelPlacement="bottom"
         />
         <FormControlLabel
           value={String(1)}
           control={<BlueRadio />}
-          label={1}
+          label={"19-29"}
           labelPlacement="bottom"
         />
         <FormControlLabel
           value={String(2)}
           control={<BlueRadio />}
-          label={2}
+          label={"30-39"}
           labelPlacement="bottom"
         />
         <FormControlLabel
           value={String(3)}
           control={<BlueRadio />}
-          label={3}
+          label={"40-49"}
           labelPlacement="bottom"
         />
         <FormControlLabel
           value={String(4)}
           control={<BlueRadio />}
-          label={4}
+          label={"50-59"}
           labelPlacement="bottom"
         />
         <FormControlLabel
           value={String(5)}
           control={<BlueRadio />}
-          label={5}
+          label={"60+"}
           labelPlacement="bottom"
         />
       </RadioGroup>
