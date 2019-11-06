@@ -7,13 +7,32 @@ import PictureUploader from "../components/PictureUploader";
 import PictureViewer from "../components/PictureViewer";
 
 export default function FaceAgeContainer() {
+  const [targetAge, setTargetAge] = React.useState(3);
+  const [targetGender, setTargetGender] = React.useState("male");
+
+  const registerTargetAge = (newTarget: number) => {
+    setTargetAge(newTarget);
+  };
+
+  const registerTargetGender = (newTarget: string) => {
+    setTargetGender(newTarget);
+  };
+
   return (
     <div>
       <Header />
       <PictureUploader />
       <PictureViewer />
-      <AgeSelector />
-      <GenderSelector />
+      <AgeSelector
+        label={"Select Age"}
+        registerTargetAge={registerTargetAge}
+        targetAge={targetAge}
+      />
+      <GenderSelector
+        label={"Select Gender"}
+        registerTargetGender={registerTargetGender}
+        targetGender={targetGender}
+      />
     </div>
   );
 }
