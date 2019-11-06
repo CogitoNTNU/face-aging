@@ -24,37 +24,35 @@ export default function GenderSelector({
   registerTargetGender,
   targetGender
 }: Props) {
-  {
-    const handleChange = (event: ChangeEvent<unknown>) => {
-      let value = (event.target as HTMLInputElement).value;
-      console.log(value);
-      registerTargetGender(value);
-    };
+  const handleChange = (event: ChangeEvent<unknown>) => {
+    let value = (event.target as HTMLInputElement).value;
+    console.log(value);
+    registerTargetGender(value);
+  };
 
-    return (
-      <div>
-        <div>{label}</div>
-        <RadioGroup
-          row
-          aria-label="radio-buttons"
-          name="ageSelect"
-          value={targetGender}
-          onChange={handleChange}
-        >
-          <FormControlLabel
-            value={"male"}
-            control={<BlueRadio />}
-            label={"male"}
-            labelPlacement="bottom"
-          />
-          <FormControlLabel
-            value={"female"}
-            control={<BlueRadio />}
-            label={"female"}
-            labelPlacement="bottom"
-          />
-        </RadioGroup>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <div>{label}</div>
+      <RadioGroup
+        row
+        aria-label="radio-buttons"
+        name="ageSelect"
+        value={targetGender}
+        onChange={handleChange}
+      >
+        <FormControlLabel
+          value={"male"}
+          control={<BlueRadio />}
+          label={"male"}
+          labelPlacement="bottom"
+        />
+        <FormControlLabel
+          value={"female"}
+          control={<BlueRadio />}
+          label={"female"}
+          labelPlacement="bottom"
+        />
+      </RadioGroup>
+    </div>
+  );
 }

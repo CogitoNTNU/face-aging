@@ -5,6 +5,7 @@ import AgeSelector from "../components/AgeSelector";
 import GenderSelector from "../components/GenderSelector";
 import PictureUploader from "../components/PictureUploader";
 import PictureViewer from "../components/PictureViewer";
+import GeneratePictureButton from "../components/GeneratePictureButton";
 
 export default function FaceAgeContainer() {
   const [targetAge, setTargetAge] = React.useState(3);
@@ -17,6 +18,8 @@ export default function FaceAgeContainer() {
   const registerTargetGender = (newTarget: string) => {
     setTargetGender(newTarget);
   };
+
+  const generateFace = () => {};
 
   return (
     <div>
@@ -33,6 +36,7 @@ export default function FaceAgeContainer() {
         registerTargetGender={registerTargetGender}
         targetGender={targetGender}
       />
+      <GeneratePictureButton generateFace={generateFace} />
     </div>
   );
 }
