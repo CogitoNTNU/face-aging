@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Header from "./Header";
 import AgeSelector from "../components/AgeSelector";
@@ -8,8 +8,8 @@ import PictureViewer from "../components/PictureViewer";
 import GeneratePictureButton from "../components/GeneratePictureButton";
 
 export default function FaceAgeContainer() {
-  const [targetAge, setTargetAge] = React.useState(3);
-  const [targetGender, setTargetGender] = React.useState("male");
+  const [targetAge, setTargetAge] = useState(3);
+  const [targetGender, setTargetGender] = useState("male");
 
   const registerTargetAge = (newTarget: number) => {
     setTargetAge(newTarget);
